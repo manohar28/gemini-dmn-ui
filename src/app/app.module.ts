@@ -9,10 +9,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    DecisionModellerComponent,
+    DecisionModellerComponent
   ],
   imports: [
     BrowserModule,

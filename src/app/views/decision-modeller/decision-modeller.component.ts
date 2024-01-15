@@ -3,8 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import Modeler from 'dmn-js/lib/Modeler';
 import InteractionLogger from '../extensions/InteractionLogger';
 
+import CustomInputEditingProvider from '../extensions/CustomInputEditingProvider';
 
 const dmnModler = require('dmn-js/dist/dmn-modeler.development');
+
+
+var overrideModule = {
+  InputEditingProvider: ['type', CustomInputEditingProvider]
+}
+
+import {
+  DmnPropertiesPanelModule,
+  DmnPropertiesProviderModule,
+  CamundaPropertiesProviderModule
+} from 'dmn-js-properties-panel';
 
 @Component({
   selector: 'app-decision-modeller',
@@ -21,11 +33,17 @@ export class DecisionModellerComponent implements AfterViewInit, AfterContentIni
   constructor(private http: HttpClient) {
     this.dmnDiagramModeler = new Modeler({
       container: this.el,
-      additionalModules: [
-        // CustomInputCellProvider,
-        InteractionLogger
-      ],
+      drd: {
+        additionalModules: [
+          DmnPropertiesPanelModule,
+          DmnPropertiesProviderModule,
+          CamundaPropertiesProviderModule,
+          CustomInputEditingProvider,
+          overrideModule]
+      },
     });
+
+    //this.dmnDiagramModeler.register
 
     this.http.get('../assets/test.dmn', { responseType: 'text' })
       .subscribe((x) => this.dmnDiagramModeler.importXML(x));

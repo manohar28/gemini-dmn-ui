@@ -1,7 +1,7 @@
 // logging component
 function InteractionLogger(eventBus) {
     console.log('inside ')
-    eventBus.on('element.hover', function (event) {
+    eventBus.on('addInput', function (event) {
         console.log('sample');
     });
 
